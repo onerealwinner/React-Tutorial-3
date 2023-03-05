@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useContext } from "react";
+import BookCreate from "./components/BookCreate";
+import BookList from "./components/BookList";
+import BooksContext from "./context/books";
 
 function App() {
+  const { loadBooks, setBooks } = useContext(BooksContext);
+
+  useEffect(() => {
+    loadBooks();
+  }, []);
+
+  const handleDeleteAllForm = () => {
+    if(window.confirm('Are you sure?') === true) {
+      if(window.confirm('really?') === true) {
+        setBooks([]);
+      }
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app"> 
+      <h1>Reading List</h1>
+      <form onSubmit={handleDeleteAllForm}>
+        <button type="submit" className="button">Delete All Books</button>
+      </form>
+
+      <BookList />
+
+      <hr />
+
+      <BookCreate />
+
     </div>
   );
 }
